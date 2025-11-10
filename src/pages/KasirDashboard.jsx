@@ -89,11 +89,11 @@ export default function KasirDashboard({ token }) {
               <div className="text-sm">Metode: {o.payment_method}</div>
 
               <div className="mt-3 flex items-center gap-2 flex-wrap">
-                {/* <button
+                <button
                   onClick={() => toggleDetail(o.id)}
                   className="px-3 py-1 rounded-lg border">
                   {detail ? "Tutup Detail" : "Lihat Detail"}
-                </button> */}
+                </button>
 
                 {/* <button
                   onClick={() => printReceipt(o.id)}
