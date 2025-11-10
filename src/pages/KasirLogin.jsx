@@ -53,8 +53,7 @@ export default function KasirLogin({ onLogged }) {
         )}
         <button
           disabled={loading}
-          className="w-full py-2 rounded-xl bg-brand-700 text-white disabled:opacity-50"
-        >
+          className="w-full py-2 rounded-xl bg-brand-700 text-black border disabled:opacity-50">
           {loading ? "Masuk..." : "Masuk"}
         </button>
       </form>

@@ -21,12 +21,16 @@ export default function KasirDashboard({ token }) {
   };
 
   const load = () => _kasirGetOrders(token).then(setOrders);
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   const toggleDetail = async (id) => {
     if (expanded[id]) {
       setExpanded((e) => {
-        const n = { ...e }; delete n[id]; return n;
+        const n = { ...e };
+        delete n[id];
+        return n;
       });
     } else {
       const detail = await _kasirGetOrderDetail(token, id);
@@ -49,8 +53,12 @@ export default function KasirDashboard({ token }) {
   };
 
   const printReceipt = (id) => {
-    const base = (import.meta.env.VITE_API_BASE || "http://127.0.0.1:4000").replace(/\/+$/,'');
-    const url = `${base}/api/kasir/orders/${id}/receipt?token=${encodeURIComponent(token)}`;
+    const base = (
+      import.meta.env.VITE_API_BASE || "http://127.0.0.1:4000"
+    ).replace(/\/+$/, "");
+    const url = `${base}/api/kasir/orders/${id}/receipt?token=${encodeURIComponent(
+      token,
+    )}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
@@ -61,42 +69,50 @@ export default function KasirDashboard({ token }) {
         {orders.map((o) => {
           const detail = expanded[o.id];
           return (
-            <div key={o.id} className="bg-white border rounded-2xl p-4 shadow-card">
+            <div
+              key={o.id}
+              className="bg-white border rounded-2xl p-4 shadow-card">
               <div className="flex items-center justify-between">
                 <div className="font-semibold">Order #{o.id}</div>
                 <div
                   className={`text-xs px-2 py-1 rounded ${
-                    o.status === "PAID" ? "bg-green-100 text-green-700" : "bg-amber-100 text-amber-700"
-                  }`}
-                >
+                    o.status === "PAID"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-amber-100 text-amber-700"
+                  }`}>
                   {o.status}
                 </div>
               </div>
-              <div className="text-sm mt-2">Total: <b>Rp{o.total_amount?.toLocaleString()}</b></div>
+              <div className="text-sm mt-2">
+                Total: <b>Rp{o.total_amount?.toLocaleString()}</b>
+              </div>
               <div className="text-sm">Metode: {o.payment_method}</div>
 
               <div className="mt-3 flex items-center gap-2 flex-wrap">
                 <button
                   onClick={() => toggleDetail(o.id)}
-                  className="px-3 py-1 rounded-lg border"
-                >
+                  className="px-3 py-1 rounded-lg border">
                   {detail ? "Tutup Detail" : "Lihat Detail"}
                 </button>
 
-                <button
+                {/* <button
                   onClick={() => printReceipt(o.id)}
                   className="px-3 py-1 rounded-lg border"
                 >
                   Print
-                </button>
+                </button> */}
 
                 {o.status !== "PAID" && (
                   <>
-                    <button className="px-3 py-1 rounded-lg bg-green-700 text-white" onClick={() => pay(o.id, "CASH")}>
+                    <button
+                      className="px-3 py-1 rounded-lg bg-green-700 text-white"
+                      onClick={() => pay(o.id, "CASH")}>
                       Mark Paid (Cash)
                     </button>
                     {/* NEW: QRIS */}
-                    <button className="px-3 py-1 rounded-lg border border-brand-500 text-brand-700" onClick={() => openQris(o.id)}>
+                    <button
+                      className="px-3 py-1 rounded-lg border border-brand-500 text-brand-700"
+                      onClick={() => openQris(o.id)}>
                       Bayar via QRIS
                     </button>
                   </>
@@ -106,10 +122,14 @@ export default function KasirDashboard({ token }) {
               {detail && (
                 <div className="mt-4 border-t pt-3 space-y-3 text-sm">
                   {detail.OrderItems?.map((it) => (
-                    <div key={it.id} className="flex items-start justify-between">
+                    <div
+                      key={it.id}
+                      className="flex items-start justify-between">
                       <div>
                         <div className="font-medium">
-                          {it.menu_name} {it.style_name ? `• ${it.style_name}` : ""} {it.variant_name ? `• ${it.variant_name}` : ""}
+                          {it.menu_name}{" "}
+                          {it.style_name ? `• ${it.style_name}` : ""}{" "}
+                          {it.variant_name ? `• ${it.variant_name}` : ""}
                         </div>
                         <div className="text-gray-500">
                           x{it.qty} • Rp{it.unit_price.toLocaleString()} / item
@@ -121,13 +141,16 @@ export default function KasirDashboard({ token }) {
                           <ul className="mt-1 text-xs text-gray-500 list-disc ml-4">
                             {it.OrderItemAddons.map((oa) => (
                               <li key={oa.id}>
-                                {oa.addon_name} (+Rp{oa.addon_price.toLocaleString()})
+                                {oa.addon_name} (+Rp
+                                {oa.addon_price.toLocaleString()})
                               </li>
                             ))}
                           </ul>
                         )}
                       </div>
-                      <div className="font-medium">Rp{it.line_total.toLocaleString()}</div>
+                      <div className="font-medium">
+                        Rp{it.line_total.toLocaleString()}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -135,7 +158,9 @@ export default function KasirDashboard({ token }) {
             </div>
           );
         })}
-        {orders.length === 0 && <div className="text-gray-500">Belum ada order.</div>}
+        {orders.length === 0 && (
+          <div className="text-gray-500">Belum ada order.</div>
+        )}
       </div>
 
       {/* NEW: Modal QRIS */}

@@ -10,10 +10,9 @@ export default function MenuCard({ item, addons, onAdd }) {
         </div>
         {/* CTA utama */}
         <button
-          className="px-3 py-1.5 bg-brand-700 text-white rounded-lg text-sm"
+          className="px-3 py-1.5 bg-brand-700 rounded-lg text-sm"
           onClick={() => onAdd(item, null, [])}
-          aria-label={`Tambah ${item.name}`}
-        >
+          aria-label={`Tambah ${item.name}`}>
           Tambah
         </button>
       </div>
@@ -27,8 +26,7 @@ export default function MenuCard({ item, addons, onAdd }) {
               <button
                 key={v.id}
                 className="px-3 py-1.5 border rounded-lg text-sm hover:bg-slate-50"
-                onClick={() => onAdd(item, v, [])}
-              >
+                onClick={() => onAdd(item, v, [])}>
                 {v.name}
                 {v.extra_price ? ` (+Rp${v.extra_price})` : ""}
               </button>
@@ -46,8 +44,7 @@ export default function MenuCard({ item, addons, onAdd }) {
               <button
                 key={a.id}
                 className="px-3 py-1.5 text-sm border rounded-lg hover:bg-slate-50"
-                onClick={() => onAdd(item, null, [a])}
-              >
+                onClick={() => onAdd(item, null, [a])}>
                 {a.name} (+Rp{a.price})
               </button>
             ))}
